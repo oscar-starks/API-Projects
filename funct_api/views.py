@@ -31,7 +31,7 @@ class UserDetailView(APIView):
     
 
 class ReservationDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def get(self, request):
         reservation = Reservation.objects.all()
         serializer = ReservationSerializer(reservation, many = True)
@@ -55,7 +55,7 @@ class ReservationDetailView(APIView):
             return Response(serializer.errors)
         
 class ReservationDetailActions(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def get(self, request, ids):
         try:
             data = Reservation.objects.get(id = ids)
@@ -86,7 +86,7 @@ class ReservationDetailActions(APIView):
     
     
 class HotelDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def get(self, request):
         hotel = Hotel.objects.all()
         serializer = HotelSerializer(hotel, many = True)
@@ -102,7 +102,7 @@ class HotelDetailView(APIView):
             return Response(serializer.errors)
     
 class HotelDetailActions(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def get(self, request, ids):
         print(request.query_params, "---------------------------------")
         try:
