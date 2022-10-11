@@ -87,13 +87,14 @@ class ReservationDetailActions(APIView):
     
 class HotelDetailView(APIView):
     # permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         hotel = Hotel.objects.all()
         serializer = HotelSerializer(hotel, many = True)
         return Response(serializer.data)
         
     def post(self, request):
-    
+        user = request.user
         serializer = ReservationSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
