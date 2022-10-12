@@ -41,32 +41,34 @@ class ReservationDetailView(APIView):
         serializer = ReservationSerializer(data = request.data)
         data = request.data
         user = request.user
-        # print(data["hotel"], "---------------------------------------------")
-        print(data)
-        hotel_id = data["hotel"]
-        hotel = Hotel.objects.get(id = hotel_id)
         
-        if serializer.is_valid():
-            serializer.save(res_for = user)
-            hotel.number_of_reservations = hotel.number_of_reservations + 1
-            hotel.save()
-            return Response(serializer.data)
+        hotel_id = data["hotel"]
+        hotel_stat = Hotel.objects.filter(id = hotel_id).exists()
+        
+        if hotel_stat:
+            hotel = Hotel.objects.get(id = hotel_id)
+            if serializer.is_valid():
+                serializer.save(res_for = user)
+                hotel.number_of_reservations = hotel.number_of_reservations + 1
+                hotel.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors)
         else:
-            return Response(serializer.errors)
+            return Response({"error": "Hotel id does not exist!"})
+        
         
 class ReservationDetailActions(APIView):
     # permission_classes = [IsAuthenticated]
     def get(self, request, ids):
-        try:
+        reservations = Reservation.objects.filter(id = ids)
+        if reservations:
             data = Reservation.objects.get(id = ids)
             serializer = ReservationSerializer(data, many = False)
             return Response(serializer.data)
-
-        except:
-            print( "-----------------------------")
-            data = Reservation.objects.get(id = 2)
-            serializer = ReservationSerializer(data, many = False)
-            return Response(serializer.data)
+        else:
+            return Response({"error": "Query does not exist!"})
+        
 
     def put(self, request, ids):
         res = request.user
@@ -120,11 +122,11 @@ class HotelDetailActions(APIView):
     def put(self, request, ids):
         hotel = Hotel.objects.get(id = ids)
         serializer = HotelSerializer(instance = hotel, data = request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception = True):
             serializer.save()
             return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+        # else:
+        #     return Response(serializer.errors)
             
     def delete(self, request, ids):
         hotel = Hotel.objects.get(id = ids)

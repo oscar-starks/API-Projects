@@ -1,18 +1,18 @@
 import json
 import requests
+from requests.auth import HTTPBasicAuth
 
 endpoint = "https://httpbin.org/anything"
 endpoint = 'http://localhost:8000/hotels/'
 payload = {
-    
-    "duration_of_stay": 8,
-    "signing_in_on": "2022-10-11",
-    "signing_out_on": "2022-10-19",
-    "email": "oscarblesserd04@gmail.com",
-    "price": 45,
-    "hotel": 2
-}
-response = requests.post(endpoint, data = payload)
+        "duration_of_stay": 3,
+        "signing_in_on": "2022-10-15",
+        "signing_out_on": "2022-10-18",
+        "email": "oscarblessred4@gmail.com",
+        "price": 44,
+        "hotel": 2
+    }
+response = requests.post(endpoint, data = payload, auth = HTTPBasicAuth('oscar', 'oscarblessed'))
 # print(response.headers) 
 print("---------")
 print(response.json())
