@@ -22,6 +22,7 @@ class Reservation(models.Model):
     email = models.EmailField()
     price = models.IntegerField(validators = [MinValueValidator(1), MaxValueValidator(5000000)])
     hotel = models.ForeignKey(Hotel, on_delete = models.CASCADE, related_name="hotel")
+    user_image =  models.ImageField(blank = True, null = True, upload_to = "reservation/")
     
     def __str__(self):
         return self.email

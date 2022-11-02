@@ -2,7 +2,7 @@ import json
 import requests
 from requests.auth import HTTPBasicAuth
 
-endpoint = "https://httpbin.org/anything"
+# endpoint = "https://httpbin.org/anything"
 endpoint = 'http://localhost:8000/hotels/'
 payload = {
         "duration_of_stay": 3,

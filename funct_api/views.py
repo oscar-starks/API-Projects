@@ -3,9 +3,8 @@ from rest_framework.views import APIView
 from funct_api.models import Reservation, Hotel
 from .serializers import HotelSerializer, ReservationSerializer, User, UserSerializer
 from rest_framework.response import Response
+from rest_framework.parsers import FileUploadParser,FormParser, MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
-
-    
 
 
 class UserDetailView(APIView):
@@ -31,6 +30,7 @@ class UserDetailView(APIView):
     
 
 class ReservationDetailView(APIView):
+    parser_classes = [FormParser, MultiPartParser, JSONParser]
     # permission_classes = [IsAuthenticated]
     def get(self, request):
         reservation = Reservation.objects.all()
@@ -42,13 +42,15 @@ class ReservationDetailView(APIView):
         data = request.data
         user = request.user
         
+        override_user = User.objects.get(id = 13)
+        
         hotel_id = data["hotel"]
         hotel_stat = Hotel.objects.filter(id = hotel_id).exists()
         
         if hotel_stat:
             hotel = Hotel.objects.get(id = hotel_id)
             if serializer.is_valid():
-                serializer.save(res_for = user)
+                serializer.save(res_for = override_user)
                 hotel.number_of_reservations = hotel.number_of_reservations + 1
                 hotel.save()
                 return Response(serializer.data)
@@ -132,3 +134,6 @@ class HotelDetailActions(APIView):
         hotel = Hotel.objects.get(id = ids)
         hotel.delete()
         return Response({"content":"deleted"}) 
+    
+    
+
