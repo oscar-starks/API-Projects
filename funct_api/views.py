@@ -5,6 +5,7 @@ from .serializers import HotelSerializer, ReservationSerializer, User, UserSeria
 from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser,FormParser, MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
+import json
 
 
 class UserDetailView(APIView):
@@ -135,5 +136,12 @@ class HotelDetailActions(APIView):
         hotel.delete()
         return Response({"content":"deleted"}) 
     
-    
-
+class staticdata(APIView):
+    def get(self, request):
+        data = {
+            "name": "test",
+            "office": "test",
+            "position": "test",
+            "salary": "test"
+        }
+        return Response(data)
