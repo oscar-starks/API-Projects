@@ -16,3 +16,11 @@ dec_12_2020 = datetime.datetime(2020, 12, 12)
 if jan_1_2020 < dec_12_2020:
     answer = dec_12_2020-jan_1_2020
     print(answer.days)
+    
+    
+def trial(name, classs):
+    print(name, classs)
+    
+mydict = {"name":"Hello", "classs":"jsssss3"}
+
+trial(**mydict)

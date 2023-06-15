@@ -24,6 +24,11 @@ class ReservationSerializer(serializers.ModelSerializer):
         else:
             return instance
         
+    def validate(self, instance):
+        name =  instance["name"]
+        print(name)
+        return instance
+        
 
 
 class HotelSerializer(serializers.ModelSerializer):
